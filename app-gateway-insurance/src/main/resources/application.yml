@@ -1,0 +1,50 @@
+server:
+  port: 8077
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: discountServiceRoute
+          predicates:
+            - Path=/discounts/**
+          uri: lb://discount-service
+
+        - id: feedbackServiceRoute
+          predicates:
+            - Path=/feedback/**
+          uri: lb://feedback-service
+
+        - id: cartServiceRoute
+          predicates:
+            - Path=/insurance/cart/**
+          uri: lb://cart-service
+
+        - id: policyServiceRoute
+          predicates:
+            - Path=/policies/**
+          uri: lb://policy-service
+
+        - id: userDashboardServiceRoute
+          predicates:
+            - Path=/user-dashboard/**
+          uri: lb://userdashboard-service
+
+        - id: userAuthenticationService
+          predicates:
+            - Path=/auth/**
+          uri: lb://user-authentication-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  security:
+    enabled: false
